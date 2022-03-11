@@ -1,5 +1,5 @@
 import DEFAULTS from './defaults';
-import TEMPLATE from './template';
+import { DEFAULT_TEMPLATE, SINGLE_COVER } from './template';
 import render from './render';
 import preview from './preview';
 import events from './events';
@@ -315,7 +315,8 @@ class Cropper {
     const container = element.parentNode;
     const template = document.createElement('div');
 
-    template.innerHTML = TEMPLATE;
+    template.innerHTML = options.singleCover ? SINGLE_COVER : DEFAULT_TEMPLATE;
+    
 
     const cropper = template.querySelector(`.${NAMESPACE}-container`);
     const canvas = cropper.querySelector(`.${NAMESPACE}-canvas`);

@@ -5,28 +5,23 @@
  * Copyright 2015-present Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2021-06-12T08:00:17.411Z
+ * Date: 2022-03-11T09:44:13.628Z
  */
 
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
   (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.Cropper = factory());
-}(this, (function () { 'use strict';
+})(this, (function () { 'use strict';
 
   function ownKeys(object, enumerableOnly) {
     var keys = Object.keys(object);
 
     if (Object.getOwnPropertySymbols) {
       var symbols = Object.getOwnPropertySymbols(object);
-
-      if (enumerableOnly) {
-        symbols = symbols.filter(function (sym) {
-          return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-        });
-      }
-
-      keys.push.apply(keys, symbols);
+      enumerableOnly && (symbols = symbols.filter(function (sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+      })), keys.push.apply(keys, symbols);
     }
 
     return keys;
@@ -34,19 +29,12 @@
 
   function _objectSpread2(target) {
     for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i] != null ? arguments[i] : {};
-
-      if (i % 2) {
-        ownKeys(Object(source), true).forEach(function (key) {
-          _defineProperty(target, key, source[key]);
-        });
-      } else if (Object.getOwnPropertyDescriptors) {
-        Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
-      } else {
-        ownKeys(Object(source)).forEach(function (key) {
-          Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
-        });
-      }
+      var source = null != arguments[i] ? arguments[i] : {};
+      i % 2 ? ownKeys(Object(source), !0).forEach(function (key) {
+        _defineProperty(target, key, source[key]);
+      }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) {
+        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+      });
     }
 
     return target;
@@ -55,17 +43,11 @@
   function _typeof(obj) {
     "@babel/helpers - typeof";
 
-    if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-      _typeof = function (obj) {
-        return typeof obj;
-      };
-    } else {
-      _typeof = function (obj) {
-        return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-      };
-    }
-
-    return _typeof(obj);
+    return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) {
+      return typeof obj;
+    } : function (obj) {
+      return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    }, _typeof(obj);
   }
 
   function _classCallCheck(instance, Constructor) {
@@ -87,6 +69,9 @@
   function _createClass(Constructor, protoProps, staticProps) {
     if (protoProps) _defineProperties(Constructor.prototype, protoProps);
     if (staticProps) _defineProperties(Constructor, staticProps);
+    Object.defineProperty(Constructor, "prototype", {
+      writable: false
+    });
     return Constructor;
   }
 
@@ -272,7 +257,8 @@
     zoom: null
   };
 
-  var TEMPLATE = '<div class="cropper-container" touch-action="none">' + '<div class="cropper-wrap-box">' + '<div class="cropper-canvas"></div>' + '</div>' + '<div class="cropper-drag-box"></div>' + '<div class="cropper-crop-box">' + '<span class="cropper-view-box"></span>' + '<span class="cropper-dashed dashed-h"></span>' + '<span class="cropper-dashed dashed-v"></span>' + '<span class="cropper-center"></span>' + '<span class="cropper-face"></span>' + '<span class="cropper-line line-e" data-cropper-action="e"></span>' + '<span class="cropper-line line-n" data-cropper-action="n"></span>' + '<span class="cropper-line line-w" data-cropper-action="w"></span>' + '<span class="cropper-line line-s" data-cropper-action="s"></span>' + '<span class="cropper-point point-e" data-cropper-action="e"></span>' + '<span class="cropper-point point-n" data-cropper-action="n"></span>' + '<span class="cropper-point point-w" data-cropper-action="w"></span>' + '<span class="cropper-point point-s" data-cropper-action="s"></span>' + '<span class="cropper-point point-ne" data-cropper-action="ne"></span>' + '<span class="cropper-point point-nw" data-cropper-action="nw"></span>' + '<span class="cropper-point point-sw" data-cropper-action="sw"></span>' + '<span class="cropper-point point-se" data-cropper-action="se"></span>' + '</div>' + '</div>';
+  var DEFAULT_TEMPLATE = '<div class="cropper-container" touch-action="none">' + '<div class="cropper-wrap-box">' + '<div class="cropper-canvas"></div>' + '</div>' + '<div class="cropper-drag-box"></div>' + '<div class="cropper-crop-box">' + '<span class="cropper-view-box"></span>' + '<span class="cropper-dashed dashed-h"></span>' + '<span class="cropper-dashed dashed-v"></span>' + '<span class="cropper-center"></span>' + '<span class="cropper-face"></span>' + '<span class="cropper-line line-e" data-cropper-action="e"></span>' + '<span class="cropper-line line-n" data-cropper-action="n"></span>' + '<span class="cropper-line line-w" data-cropper-action="w"></span>' + '<span class="cropper-line line-s" data-cropper-action="s"></span>' + '<span class="cropper-point point-e" data-cropper-action="e"></span>' + '<span class="cropper-point point-n" data-cropper-action="n"></span>' + '<span class="cropper-point point-w" data-cropper-action="w"></span>' + '<span class="cropper-point point-s" data-cropper-action="s"></span>' + '<span class="cropper-point point-ne" data-cropper-action="ne"></span>' + '<span class="cropper-point point-nw" data-cropper-action="nw"></span>' + '<span class="cropper-point point-sw" data-cropper-action="sw"></span>' + '<span class="cropper-point point-se" data-cropper-action="se"></span>' + '</div>' + '</div>';
+  var SINGLE_COVER = '<div class="cropper-container" touch-action="none"> DEV' + '<div class="cropper-wrap-box">' + '<div class="cropper-canvas"></div>' + '</div>' + '<div class="cropper-drag-box"></div>' + '<div class="cropper-crop-box">' + "<div class=\"cropper-view-box\"></div>" + "<div class=\"cropper-face\" style=\"display:flex;width:100%;\">\n        <div id=\"dark-box-1\" style=\"width:32.5%;height:100%;background-color:rgba(255,255,255,.5);pointer-events:none;border-right:4px solid #39f;\">\n        </div>\n        <div id=\"mobile-box\" style=\"width:35%;height:100%;pointer-events:none;\"></div>\n        <div id=\"dark-box-2\" style=\"width:32.5%;height:100%;background-color:rgba(255,255,255,.5);pointer-events:none;border-left:4px solid #39f;\"></div>\n      </div>" + "\n        \n      " + '<span class="cropper-line line-e" data-cropper-action="e"></span>' + '<span class="cropper-line line-n" data-cropper-action="n"></span>' + '<span class="cropper-line line-w" data-cropper-action="w"></span>' + '<span class="cropper-line line-s" data-cropper-action="s"></span>' + '<span class="cropper-point point-e" data-cropper-action="e"></span>' + '<span class="cropper-point point-n" data-cropper-action="n"></span>' + '<span class="cropper-point point-w" data-cropper-action="w"></span>' + '<span class="cropper-point point-s" data-cropper-action="s"></span>' + '<span class="cropper-point point-ne" data-cropper-action="ne"></span>' + '<span class="cropper-point point-nw" data-cropper-action="nw"></span>' + '<span class="cropper-point point-sw" data-cropper-action="sw"></span>' + '<span class="cropper-point point-se" data-cropper-action="se"></span>' + '</div>' + '</div>';
 
   /**
    * Check if the given value is not a number.
@@ -366,10 +352,10 @@
       if (Array.isArray(data) || isNumber(data.length)
       /* array-like */
       ) {
-          toArray(data).forEach(function (value, key) {
-            callback.call(data, value, key, data);
-          });
-        } else if (isObject(data)) {
+        toArray(data).forEach(function (value, key) {
+          callback.call(data, value, key, data);
+        });
+      } else if (isObject(data)) {
         Object.keys(data).forEach(function (key) {
           callback.call(data, data[key], key, data);
         });
@@ -879,8 +865,7 @@
    * @returns {Object} The result sizes.
    */
 
-  function getAdjustedSizes(_ref4) // or 'cover'
-  {
+  function getAdjustedSizes(_ref4) {
     var aspectRatio = _ref4.aspectRatio,
         height = _ref4.height,
         width = _ref4.width;
@@ -1118,14 +1103,14 @@
           if (littleEndian || endianness === 0x4D4D
           /* bigEndian */
           ) {
-              if (dataView.getUint16(tiffOffset + 2, littleEndian) === 0x002A) {
-                var firstIFDOffset = dataView.getUint32(tiffOffset + 4, littleEndian);
+            if (dataView.getUint16(tiffOffset + 2, littleEndian) === 0x002A) {
+              var firstIFDOffset = dataView.getUint32(tiffOffset + 4, littleEndian);
 
-                if (firstIFDOffset >= 0x00000008) {
-                  ifdStart = tiffOffset + firstIFDOffset;
-                }
+              if (firstIFDOffset >= 0x00000008) {
+                ifdStart = tiffOffset + firstIFDOffset;
               }
             }
+          }
         }
       }
 
@@ -1142,14 +1127,14 @@
           if (dataView.getUint16(_offset, littleEndian) === 0x0112
           /* Orientation */
           ) {
-              // 8 is the offset of the current tag's value
-              _offset += 8; // Get the original orientation value
+            // 8 is the offset of the current tag's value
+            _offset += 8; // Get the original orientation value
 
-              orientation = dataView.getUint16(_offset, littleEndian); // Override the orientation with its default value
+            orientation = dataView.getUint16(_offset, littleEndian); // Override the orientation with its default value
 
-              dataView.setUint16(_offset, 1, littleEndian);
-              break;
-            }
+            dataView.setUint16(_offset, 1, littleEndian);
+            break;
+          }
         }
       }
     } catch (error) {
@@ -3493,7 +3478,7 @@
 
         var container = element.parentNode;
         var template = document.createElement('div');
-        template.innerHTML = TEMPLATE;
+        template.innerHTML = options.singleCover ? SINGLE_COVER : DEFAULT_TEMPLATE;
         var cropper = template.querySelector(".".concat(NAMESPACE, "-container"));
         var canvas = cropper.querySelector(".".concat(NAMESPACE, "-canvas"));
         var dragBox = cropper.querySelector(".".concat(NAMESPACE, "-drag-box"));
@@ -3628,4 +3613,4 @@
 
   return Cropper;
 
-})));
+}));
